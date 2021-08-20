@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>demo08</title>
+  <script src="../lib/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <input v-model="parentMsg" />
+    <my-component msg="test"></my-component>
+    <my-component :msg="parentMsg" :msg1="parentMsg" :init-count="parentCount" :width="100"></my-component>
+  </div>
+  <script>
+    Vue.component("my-component", {
+      props: ['msg', 'msg1', 'init-count', 'width'],
+      template: '<div>\
+            <div>{{msg}}</div>\
+            <div>{{msg1}}</div>\
+            <div>{{count}}</div>\
+            <div :style="style"></div>\
+        </div>',
+      data() {
+        return {
+          count: this.initCount,
+        }
+      },
+      computed: {
+        style() {
+          return {
+            width: this.width + 'px'
+          }
+        }
+      }
+    });
+
+    const app = new Vue({
+      el: '#app',
+      data: {
+        parentMsg: 'parent-test',
+        parentCount: '0'
+      },
+      methods: {
+
+      },
+    });
+
+  </script>
+</body>
+
+</html>

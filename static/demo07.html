@@ -13,19 +13,25 @@
   <div id="app">
     <my-component></my-component>
     <table>
-        <tbody is="my-component"></tbody>
+      <tbody is="my-component"></tbody>
     </table>
-    
+
   </div>
   <script>
-      Vue.component("my-component", {
-        template:"<div>{{msg}}</div>",
-        data() {
-            return{
-                msg:"test",
-            }
-        },
-      });
+    /*  var data = {
+      counter: 0,
+      msg:"test"
+    } */
+
+    Vue.component("my-component", {
+      template: '<div><div>{{msg}}</div><div @click="counter++">{{counter}}</div></div>',
+      data() {
+        return {
+          counter: 0,
+          msg: "test"
+        };
+      },
+    });
 
 
     const app = new Vue({
