@@ -1,0 +1,113 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-08-23 11:14:47
+ * @LastEditTime: 2021-08-25 19:33:51
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vue-demo\static\demo09.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>demo09</title>
+  <script src="../lib/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <button @click="btnPush()">push</button>
+    <button @click="btnPop()">pop</button>
+    <button @click="btnShift()">shift</button>
+    <button @click="btnUnshift()">unshift</button>
+    <button @click="btnSpliceDelete()">splice-delete</button>
+    <button @click="btnSpliceInsert()">splice-insert</button>
+    <button @click="btnSpliceSwarp()">splice-swarp</button>
+    <button @click="btnSort()">sort</button>
+    <button @click="btnReverse()">reverse</button>
+    <button @click="btnReset()">reset</button>
+    <ul>
+      <li v-for="(value,key,index) in letters">
+        {{value}}
+      </li>
+    </ul>
+
+  </div>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data() {
+        var letters = null;
+        var str = "";
+        for (let i = 'A'.charCodeAt(); i <= 'Z'.charCodeAt(); i++) {
+          str += String.fromCharCode(i);
+        }
+        letters = Array.from(str);
+        return {
+          letters,
+
+          //letters: ['a', 'b', 'c', 'd', 'e'],
+        }
+      },
+      methods: {
+        btnPush() {
+          this.letters.push('push');
+
+        },
+        btnPop() {
+
+          this.letters.pop();
+
+        },
+        btnShift() {
+
+          this.letters.shift();
+
+        },
+        btnUnshift() {
+
+          this.letters.unshift('unshift');
+
+        },
+        btnSpliceDelete() {
+
+          this.letters.splice(1, 1);
+
+        },
+        btnSpliceInsert() {
+
+          this.letters.splice(1, 0, "splice-insert");
+
+        },
+        btnSpliceSwarp() {
+
+          this.letters.splice(1, 1, "splice-swarp");
+
+        },
+        btnSort() {
+
+          this.letters.sort(function (a, b) {
+            return a < b ? 1 : a == b ? 0 : -1;
+          })
+
+        },
+        btnReverse() {
+          this.letters.reverse();
+        },
+        btnReset() {
+          var str = "";
+          for (let i = 'A'.charCodeAt(); i <= 'Z'.charCodeAt(); i++) {
+            str += String.fromCharCode(i);
+          }
+          this.letters.splice(0,this.letters.length,...Array.from(str));
+        },
+      },
+    });
+
+  </script>
+</body>
+
+</html>

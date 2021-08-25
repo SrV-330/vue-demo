@@ -1,0 +1,59 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-08-25 19:41:49
+ * @LastEditTime: 2021-08-25 19:56:26
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vue-demo\static\demo12.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>demo12</title>
+  <script src="../lib/vue.js"></script>
+  <style>
+    .active {
+      color: red;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <ul>
+      <li v-for="(value,index) in movies" @click="liClick(index)" :class="{active:curIdx===index}">
+        {{index}}-{{value}}</li>
+    </ul>
+
+  </div>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data() {
+        let movies = [];
+        let num = 10;
+        for (let i = 0; i < num; i++) {
+          movies.push("movies" + i);
+        }
+        let curIdx = -1;
+        return {
+          movies,
+          curIdx,
+        }
+      },
+      methods: {
+        liClick(index) {
+          this.curIdx = index;
+        }
+      },
+    });
+
+  </script>
+</body>
+
+</html>
