@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2021-08-26 19:54:34
- * @LastEditTime: 2021-08-26 19:56:17
- * @LastEditors: your name
+ * @LastEditTime: 2021-08-27 16:20:39
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \vue-demo\static\demo14.html
 -->
@@ -20,43 +20,99 @@
 
 <body>
   <div id="app">
-    <ul>
-      <li v-for="(value,index) in arr">{{value|filter1|filter2}}</li>
-    </ul>
-    <h3>total:{{total}}</h3>
-    <h3>total1:{{total1}}</h3>
+    <h3>total: {{total}}</h3>
+    <my-component @increase="handleTotal" @reduce="handleTotal"></my-component>
+    <h3>total1: {{total1}}</h3>
+    <my-component @increase="handleTotal" @reduce="handleTotal"></my-component>
+    <h3>message: {{message}}</h3>
+    <component-a></component-a>
+    <h3>message1: {{message1}}</h3>
+    <component-b>
+    </component-b>
+    <h3>message2: {{message2}}</h3>
+    <button @click="handleRef">子组件</button>
+    <component-c ref="comC">
+    </component-c>
   </div>
   <script>
+    let bus = new Vue();
+    Vue.component("component-a", {
+      template: '<div><button @click="handleEvent">传递事件</button></div>',
+      methods: {
+        handleEvent() {
+          console.log("handleEvent");
+          bus.$emit('on-message', 'content from component-a');
+        },
+
+      },
+    });
+
+    Vue.component("component-b", {
+      template: '<div><button @click="handleEvent">通过父链直接修改</button></div>',
+      methods: {
+        handleEvent() {
+          console.log("handleEvent");
+          this.$parent.message1 = "content from component-b";
+        },
+
+      },
+    });
+
+    Vue.component("component-c", {
+      template: '<div>子组件</div>',
+      data() {
+        return {
+          message: "children component content",
+        }
+      }
+    });
+
+    Vue.component("my-component", {
+      template: "<div>\
+          <button @click=\"handleIncrease\">+1</button>\
+          <button @click=\"handleReduce\">-1</button>\
+        </div>",
+      data() {
+
+        return {
+          counter: 0,
+        }
+      },
+      methods: {
+        handleIncrease() {
+          this.counter++;
+          this.$emit("increase", this.counter);
+        },
+        handleReduce() {
+          this.counter--;
+          this.$emit("reduce", this.counter);
+        },
+      },
+    });
     const app = new Vue({
       el: '#app',
-      data() {
-        let arr = [];
-        let num = 10;
-        for (let i = 0; i < num; i++) {
-          let a = Math.ceil(Math.random() * 100);
-          arr.push(a);
-        }
-        let total = 0;
-        arr.forEach(value => total += value);
-        arr.map(value => value += 2);
-        let total1 = arr.reduce((preValue, n) => preValue += n, 0);
-        arr = arr.filter(value => value > 50);
-        return {
-          arr,
-          total,
-          total1,
-        }
+      data: {
+        total: 0,
+        message: "",
+        message1: "",
+        message2: "",
       },
-      methods: {},
-      filters: {
-        filter1(value) {
-          return value + 2;
+      methods: {
+        handleTotal(value) {
+          this.total = value;
         },
-        filter2(value) {
-          return value * 2;
+        handleRef() {
+          this.message2 = this.$refs.comC.message;
+          console.log(this.$refs.comC.message);
         },
-      },
 
+      },
+      mounted() {
+        var _this = this;
+        bus.$on("on-message", function (msg) {
+          _this.message = msg;
+        });
+      },
     });
 
   </script>
