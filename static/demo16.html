@@ -1,0 +1,55 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-08-26 19:54:34
+ * @LastEditTime: 2021-08-27 16:20:39
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \vue-demo\static\demo16.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>demo16</title>
+    <script src="../lib/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <input type="text" v-model.lazy="message">
+            message: {{message}}
+        </div>
+        <div>
+            <input type="number" v-model.lazy.number="age">
+            age: {{age}}
+            <br />
+            typeof age: {{ typeof age}}
+        </div>
+        <div>
+            <input type="text" v-model.trim="name">
+            name: {{name}}
+            <br />
+            name length: {{ name.length}}
+        </div>
+    </div>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                message: "",
+                age: "",
+                name: "",
+            },
+            methods: {
+
+            },
+        });
+    </script>
+</body>
+
+</html>
