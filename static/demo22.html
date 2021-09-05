@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>demo22</title>
+    <script src="../lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h3>{{counter}}</h3>
+        <my-comp @increment="getCount" @decrement="getCount"></my-comp>
+    </div>
+    <template id="comp">
+        <div>
+            <button @click="increment($event)">+1</button>
+            <button @click="decrement($event)">-1</button>
+            <button @click="eventHandle($event)">event</button>
+        </div>
+    </template>
+    <script>
+        const app = new Vue({
+            el: "#app",
+            data: {
+                counter: 0,
+            },
+            methods: {
+                getCount(counter, event) {
+                    console.log(arguments.length);
+                    console.log("args", ...arguments);
+                    this.counter = counter;
+                },
+
+            },
+            components: {
+                "my-comp": {
+                    template: "#comp",
+                    data() {
+                        let counter = 0;
+                        return {
+                            counter,
+                        }
+                    },
+                    methods: {
+                        increment(event) {
+                            this.counter++;
+                            console.log(this.counter);
+                            this.$emit("increment", this.counter, event);
+                        },
+                        decrement(event) {
+                            this.counter--;
+                            console.log(this.counter);
+                            this.$emit("decrement", this.counter, event);
+                        },
+                        eventHandle(event) {
+                            console.log("event", event);
+                        },
+
+                    },
+                },
+            },
+        });
+    </script>
+
+</body>
+
+</html>
