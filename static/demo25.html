@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>demo25</title>
+  <script src="../lib/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <my-comp1>
+      <div slot="left">div</div>
+      <p slot="center">p</p>
+      <button slot="right">button</button>
+    </my-comp1>
+  </div>
+  <template id="comp">
+    <div>
+      <h3>{{message}}</h3>
+      <slot>
+        <div>div element</div>
+      </slot>
+    </div>
+  </template>
+  <template id="comp1">
+    <div>
+      <h3>{{message}}</h3>
+      <slot name="left"><span>left</span></slot>
+      <slot name="center"><span>center</span></slot>
+      <slot name="right"><span>right</span></slot>
+    </div>
+  </template>
+  <script>
+    const app = new Vue({
+      el: "#app",
+      data: {
+
+      },
+      methods: {
+
+      },
+      components: {
+        "my-comp": {
+          template: "#comp",
+          data() {
+            let message = "hello";
+            return {
+              message,
+            }
+          },
+        },
+        "my-comp1": {
+          template: "#comp1",
+          data() {
+            let message = "hello";
+            return {
+              message,
+            }
+          },
+        },
+      },
+    });
+
+  </script>
+
+</body>
+
+</html>
