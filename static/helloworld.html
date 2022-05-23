@@ -2,46 +2,87 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="../lib/vue.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../lib/vue.js"></script>
 </head>
 
 <body>
-    <div id="app">
-        <h1>当前计数:{{count}}</h1>
-        <button v-on:click="add">add</button>
-        <button v-on:click="sub">sub</button>
-    </div>
+  <div id="app">
+    <h1>当前计数:{{count}}</h1>
+    <button v-on:click="add">add</button>
+    <button v-on:click="sub">sub</button>
+    <school></school>
+  </div>
 
 
-    <script>
-        let app = new Vue({
-            el: "#app",
-            data: {
-                count: 0
-            },
-            methods: {
+  <script>
+    const student = Vue.extend({
+      name: "student",
+      template: `
+        <div>
+            <h4>id:{{id}}</h4>
+            <h4>name:{{name}}</h4>
+            <h4>age:{{age}}</h4>
+        </div>
+        `,
+      data() {
+        return {
+          id: 000001,
+          name: "Alice",
+          age: 18,
+        }
+      },
+    });
+    const school = Vue.extend({
+      name: "school",
+      template: `
+        <div>
+            <h3>id:{{id}}</h3>
+            <h3>name:{{name}}</h3>
+            <student></student>
+        </div>
+        `,
+      components: {
+        student,
+      },
+      data() {
+        return {
+          id: 0001,
+          name: "Big School",
+        }
+      },
+    });
+    let app = new Vue({
+      el: "#app",
+      data: {
+        count: 0
+      },
+      components: {
+        school,
+      },
+      methods: {
 
-                add: function() {
-                    console.log("add " + this.count);
-                    this.count++;
-                },
-                sub: function() {
-                    console.log("sub " + this.count);
-                    this.count--;
-                }
-            },
-            created: function() {
-                console.log("created");
-            },
-            mounted: function() {
-                console.log("mounted");
-            }
-        });
-    </script>
+        add: function () {
+          console.log("add " + this.count);
+          this.count++;
+        },
+        sub: function () {
+          console.log("sub " + this.count);
+          this.count--;
+        }
+      },
+      created: function () {
+        console.log("created");
+      },
+      mounted: function () {
+        console.log("mounted");
+      }
+    });
+
+  </script>
 </body>
 
 </html>
