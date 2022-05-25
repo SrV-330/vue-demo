@@ -14,18 +14,20 @@
     <h1>当前计数:{{count}}</h1>
     <button v-on:click="add">add</button>
     <button v-on:click="sub">sub</button>
-    <school></school>
+    <school :msg="msg"></school>
   </div>
 
 
   <script>
     const student = Vue.extend({
       name: "student",
+      props: ["msg"],
       template: `
         <div>
             <h4>id:{{id}}</h4>
             <h4>name:{{name}}</h4>
             <h4>age:{{age}}</h4>
+            <h4 v-if="this.msg">{{msg}}</h4>
         </div>
         `,
       data() {
@@ -39,10 +41,10 @@
     const school = Vue.extend({
       name: "school",
       template: `
-        <div>
+        <div v-bind="$attrs">
             <h3>id:{{id}}</h3>
             <h3>name:{{name}}</h3>
-            <student></student>
+            <student v-bind="$attrs"></student>
         </div>
         `,
       components: {
@@ -52,13 +54,18 @@
         return {
           id: 0001,
           name: "Big School",
+          msg: "hello student",
         }
       },
+      mounted() {
+        console.log("$attrs:", this.$attrs);
+      }
     });
     let app = new Vue({
       el: "#app",
       data: {
-        count: 0
+        count: 0,
+        msg: "hello student",
       },
       components: {
         school,
