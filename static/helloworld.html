@@ -20,6 +20,37 @@
 
 
   <script>
+    Vue.config.productionTip = false;// 关闭提示
+
+    /**
+     * 
+     * 使用vuex管理公共数据,所有Vue和VueComponent实例都会有$store
+     * 
+     */
+
+    Vue.use(Vuex);
+
+    const store = new Vuex.Store({
+      state: {
+        count: 0,
+      },
+      getters: {
+        getCount: state => {
+          return state.count > 0 ? state.count : 0;
+        },
+      },
+      mutations: {
+        add(state) {
+          console.log("mutations add " + state.count);
+          state.count++;
+        },
+        sub(state) {
+          console.log("mutations sub " + state.count);
+          state.count--;
+        },
+      },
+    })
+
     const student = Vue.extend({
       name: "student",
       props: ["msg"],
@@ -33,7 +64,7 @@
         `,
       data() {
         return {
-          id: 000001,
+          id: "000001",
           name: "Alice",
           age: 18,
         }
@@ -46,6 +77,15 @@
             <h3>id:{{id}}</h3>
             <h3>name:{{name}}</h3>
             <student v-bind="$attrs"></student>
+            <div> store.count: {{getCountSchool}}</div>
+            <div>
+              <button @click="add">
+                add
+              </button>
+              <button @click="sub">
+                sub
+              </button>
+            </div>
         </div>
         `,
       components: {
@@ -53,17 +93,41 @@
       },
       data() {
         return {
-          id: 0001,
+          id: "0001",
           name: "Big School",
           msg: "hello student",
         }
       },
+      methods: {
+        add() {
+          console.log("school add ");
+          this.$store.commit("add");
+        },
+        sub() {
+          console.log("school sub ");
+          this.$store.commit("sub");
+        },
+
+      },
+      computed: {
+        getCountSchool(){
+          return this.$store.getters.getCount;
+        },
+        
+      },
       mounted() {
+        /**
+         * 使用$attrs来传值到子组件
+         */
         console.log("$attrs:", this.$attrs);
       }
     });
+
+
+
     let app = new Vue({
       el: "#app",
+      store,
       data: {
         count: 0,
         msg: "hello student",
